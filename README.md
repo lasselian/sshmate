@@ -2,7 +2,7 @@
 
 A simple terminal tool for managing SSH connections. Instead of remembering or typing out every host, you just pick from a list and it connects.
 
-![screenshot](picture.png)
+<img width="954" height="523" alt="image" src="https://github.com/user-attachments/assets/14a2f62d-6317-4c6c-9cab-5acad81e030c" />
 
 ## Install
 
