@@ -4,12 +4,59 @@ import pyfiglet
 from textual.app import App, ComposeResult
 from textual.binding import Binding
 from textual.containers import Horizontal, Vertical
-from textual.screen import Screen
+from textual.screen import ModalScreen, Screen
 from textual.widgets import Button, Footer, Input, Label, ListItem, ListView, Static
 
 from . import storage
 
 BANNER = pyfiglet.figlet_format("sshmate", font="slant")
+
+
+class ConfirmDelete(ModalScreen):
+    CSS = """
+    ConfirmDelete {
+        align: center middle;
+    }
+    #confirm-container {
+        background: $surface;
+        border: solid $error;
+        padding: 2 4;
+        width: 48;
+        height: auto;
+    }
+    #confirm-title {
+        text-align: center;
+        color: $error;
+        text-style: bold;
+        margin-bottom: 1;
+    }
+    #confirm-message {
+        text-align: center;
+        margin-bottom: 2;
+    }
+    #buttons {
+        align: center middle;
+        height: auto;
+    }
+    Button {
+        margin: 0 1;
+    }
+    """
+
+    def __init__(self, alias: str):
+        super().__init__()
+        self.alias = alias
+
+    def compose(self) -> ComposeResult:
+        with Vertical(id="confirm-container"):
+            yield Static("Delete Connection", id="confirm-title")
+            yield Static(f'Delete "{self.alias}"?', id="confirm-message")
+            with Horizontal(id="buttons"):
+                yield Button("Delete", variant="error", id="confirm")
+                yield Button("Cancel", variant="default", id="cancel")
+
+    def on_button_pressed(self, event: Button.Pressed):
+        self.dismiss(event.button.id == "confirm")
 
 
 class ConnectionForm(Screen):
@@ -168,9 +215,15 @@ class SSHMateApp(App):
         index = lv.index
         if index is None or index >= len(self.connections):
             return
-        self.connections.pop(index)
-        storage.save(self.connections)
-        self._refresh_list()
+        alias = self.connections[index]["alias"]
+
+        def on_result(confirmed):
+            if confirmed:
+                self.connections.pop(index)
+                storage.save(self.connections)
+                self._refresh_list()
+
+        self.push_screen(ConfirmDelete(alias), on_result)
 
     def _add_connection(self):
         def on_result(result):
