@@ -22,9 +22,9 @@ Just type `sshmate` anywhere in your terminal.
 - `d` to delete a connection
 - `q` to quit
 
-Your connections are saved in `~/.config/sshmate/connections.json` — not in the project folder, so nothing sensitive ends up on GitHub.
+Your connections are saved in `~/.config/sshmate/connections.json` 
 
 ## Requirements
 
 - Python 3.8+
-- An SSH client (you already have one)
+- An SSH client
