@@ -1,0 +1,2 @@
+[console_scripts]
+sshmate = sshmate.app:main
