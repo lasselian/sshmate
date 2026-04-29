@@ -1,3 +1,5 @@
+LICENSE
+README.md
 pyproject.toml
 sshmate/__init__.py
 sshmate/app.py
