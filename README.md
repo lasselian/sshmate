@@ -9,7 +9,7 @@ A simple terminal tool for managing SSH connections. Instead of remembering or t
 You need [pipx](https://pipx.pypa.io/stable/installation/) installed first, then:
 
 ```bash
-pipx install git+https://github.com/yourusername/sshmate
+pipx install git+https://github.com/lasselian/sshmate
 ```
 
 ## Usage
